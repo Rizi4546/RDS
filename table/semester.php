@@ -92,17 +92,18 @@ $result = $conn->query($sql);
                 <tr>
                     <th>Semester ID</th>
                     <th>Semester Name</th>
-                    <th>Year</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
                 </tr>
             </thead>
             <tbody>
                 <?php
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
-                        echo "<tr><td>" . $row["semester_id"] . "</td><td>" . $row["name"] . "</td><td>" . $row["year"] . "</td></tr>";
+                        echo "<tr><td>" . $row["semester_id"] . "</td><td>" . $row["semester_name"] . "</td><td>" . $row["start_date"] . "</td><td>". $row["end_date"] . "</td></tr>";
                     }
                 } else {
-                    echo "<tr><td colspan='3'>No records found</td></tr>";
+                    echo "<tr><td colspan='4'>No records found</td></tr>";
                 }
                 ?>
             </tbody>

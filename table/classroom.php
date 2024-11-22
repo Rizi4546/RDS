@@ -91,7 +91,7 @@ $result = $conn->query($sql);
             <thead>
                 <tr>
                     <th>Classroom ID</th>
-                    <th>Location</th>
+                    <th>Room</th>
                     <th>Capacity</th>
                 </tr>
             </thead>
@@ -99,7 +99,7 @@ $result = $conn->query($sql);
                 <?php
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
-                        echo "<tr><td>" . $row["classroom_id"] . "</td><td>" . $row["location"] . "</td><td>" . $row["capacity"] . "</td></tr>";
+                        echo "<tr><td>" . $row["classroom_id"] . "</td><td>" . $row["room_number"] . "</td><td>" . $row["capacity"] . "</td></tr>";
                     }
                 } else {
                     echo "<tr><td colspan='3'>No records found</td></tr>";

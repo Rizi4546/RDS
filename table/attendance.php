@@ -92,18 +92,20 @@ $result = $conn->query($sql);
                 <tr>
                     <th>Attendance ID</th>
                     <th>Student ID</th>
+                    <th>Schedule ID</th>
+                    <th>Attendance Status ID</th>
                     <th>Date</th>
-                    <th>Status</th>
+                    
                 </tr>
             </thead>
             <tbody>
                 <?php
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
-                        echo "<tr><td>" . $row["attendance_id"] . "</td><td>" . $row["student_id"] . "</td><td>" . $row["date"] . "</td><td>" . $row["status"] . "</td></tr>";
+                        echo "<tr><td>" . $row["attendance_id"] . "</td><td>" . $row["student_id"] . "</td><td>" . $row["schedule_id"] . "</td><td>" . $row["attendance_status_id"] . "</td><td>" . $row["date"] . "</td></tr>";
                     }
                 } else {
-                    echo "<tr><td colspan='4'>No records found</td></tr>";
+                    echo "<tr><td colspan='5'>No records found</td></tr>";
                 }
                 ?>
             </tbody>

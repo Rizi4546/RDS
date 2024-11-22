@@ -92,14 +92,14 @@ $result = $conn->query($sql);
                 <tr>
                     <th>Department ID</th>
                     <th>Department Name</th>
-                    <th>Faculty ID</th>
+                    
                 </tr>
             </thead>
             <tbody>
                 <?php
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
-                        echo "<tr><td>" . $row["department_id"] . "</td><td>" . $row["department_name"] . "</td><td>" . $row["faculty_id"] . "</td></tr>";
+                        echo "<tr><td>" . $row["department_id"] . "</td><td>" . $row["department_name"] . "</td><td>" ;
                     }
                 } else {
                     echo "<tr><td colspan='3'>No records found</td></tr>";

@@ -100,7 +100,7 @@ $result = $conn->query($sql);
                 <?php
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
-                        echo "<tr><td>" . $row["student_id"] . "</td><td>" . $row["student_name"] . "</td><td>" . $row["department_id"] . "</td><td>" . $row["email"] . "</td></tr>";
+                        echo "<tr><td>" . $row["student_id"] . "</td><td>" . $row["first_name"] . $row["last_name"]."</td><td>" . $row["department_id"] . "</td><td>" . $row["email"] . "</td></tr>";
                     }
                 } else {
                     echo "<tr><td colspan='4'>No records found</td></tr>";

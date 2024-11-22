@@ -91,8 +91,7 @@ $result = $conn->query($sql);
             <thead>
                 <tr>
                     <th>Instructor ID</th>
-                    <th>Instructor Name</th>
-                    <th>Department ID</th>
+                    <th>Name</th>
                     <th>Email</th>
                 </tr>
             </thead>
@@ -100,7 +99,7 @@ $result = $conn->query($sql);
                 <?php
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
-                        echo "<tr><td>" . $row["instructor_id"] . "</td><td>" . $row["name"] . "</td><td>" . $row["department_id"] . "</td><td>" . $row["email"] . "</td></tr>";
+                        echo "<tr><td>" . $row["instructor_id"] . "</td><td>" . $row["first_name"].$row["last_name"]. "</td><td>" . $row["email"] . "</td></tr>";
                     }
                 } else {
                     echo "<tr><td colspan='4'>No records found</td></tr>";

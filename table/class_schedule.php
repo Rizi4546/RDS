@@ -93,17 +93,20 @@ $result = $conn->query($sql);
                     <th>Schedule ID</th>
                     <th>Course ID</th>
                     <th>Classroom ID</th>
-                    <th>Time</th>
+                    <th>Semester</th>
+                    <th>Start Time</th>
+                    <th>End Time</th>
+                    <th>Day</th>
                 </tr>
             </thead>
             <tbody>
                 <?php
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
-                        echo "<tr><td>" . $row["schedule_id"] . "</td><td>" . $row["course_id"] . "</td><td>" . $row["classroom_id"] . "</td><td>" . $row["time"] . "</td></tr>";
+                        echo "<tr><td>" . $row["schedule_id"] . "</td><td>" . $row["course_id"] . "</td><td>" . $row["classroom_id"] . "</td><td>" . $row["semester_id"] . "</td><td>" . $row["start_time"] . "</td><td>" . $row["end_time"] . "</td><td>" . $row["day_of_week"] . "</td></tr>";
                     }
                 } else {
-                    echo "<tr><td colspan='4'>No records found</td></tr>";
+                    echo "<tr><td colspan='7'>No records found</td></tr>";
                 }
                 ?>
             </tbody>
