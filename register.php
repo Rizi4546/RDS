@@ -1,23 +1,26 @@
 <?php
 session_start();
 include('config.php');
+if (isset($_POST['register'])) {
+    // Registration functionality
+    $newUsername = $_POST['new_username'];
+    $newPassword = $_POST['new_password'];
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
+// Check if username exists
+$result = $conn->query("SELECT * FROM users WHERE username='$newUsername'");
 
-    $sql = "SELECT * FROM users WHERE username='$username' AND password='$password'";
-    $result = $conn->query($sql);
-
-    if ($result->num_rows > 0) {
-        $_SESSION['username'] = $username;
-        header("Location: dashboard.php");
+if ($result->num_rows > 0) {
+    $registerError = "Username already exists.";
+} else {
+    // Insert new user
+    if ($conn->query("INSERT INTO users (username, password) VALUES ('$newUsername', '$newPassword')")) {
+        $registerSuccess = "Registration successful! You can now log in.";
     } else {
-        $error = "Invalid Username or Password";
+        $registerError = "Registration failed. Please try again.";
     }
 }
+}
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -123,21 +126,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
     <div class="container">
         <h1>Student Management System</h1>
-
-        <!-- Login Form -->
+        <!-- Registration Form -->
         <form method="POST" class="form">
-            <label for="username">Username</label>
-            <input type="text" id="username" name="username" required>
+            <label for="new_username">New Username</label>
+            <input type="text" id="new_username" name="new_username" required>
 
-            <label for="password">Password</label>
-            <input type="password" id="password" name="password" required>
+            <label for="new_password">New Password</label>
+            <input type="text" id="new_password" name="new_password" required>
 
-            <button type="submit" name="login">Login</button>
-            <?php if (isset($error)) echo "<p class='error'>$error</p>"; ?>
+            <button type="submit" name="register">Register</button>
+            <?php
+            if (isset($registerError)) echo "<p class='error'>$registerError</p>";
+            if (isset($registerSuccess)) echo "<p class='success'>$registerSuccess</p>";
+            ?>
         </form>
-        
+
         <div class="toggle">
-            <p>New User? <a href="register.php">Register</a></p>
+            <p>Already have an account? <a href="Login.php">Login</a></p>
         </div>
     </div>
 </body>

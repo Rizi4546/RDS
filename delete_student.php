@@ -6,9 +6,22 @@ if (!isset($_SESSION['username'])) {
     exit();
 }
 
-$sql = "SELECT * FROM student";
-$result = $conn->query($sql);
+
+
+// Handle Delete operation
+if (isset($_GET['delete'])) {
+    $student_id = $_GET['delete'];
+
+    $sql = "DELETE FROM student WHERE student_id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('s', $student_id);
+    $stmt->execute();
+    $stmt->close();
+    header("Location: student.php");
+    exit();
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -118,33 +131,33 @@ $result = $conn->query($sql);
         }
     </style>
 </head>
-<body>
-    <div class="container">
-        <h1>Subjects Table</h1>
-        <a class="btn-back" href="../search_student.php">Search</a>
-        <table>
-            <thead>
-                <tr>
-                    <th>Student ID</th>
-                    <th>Name</th>
-                    <th>Department ID</th>
-                    <th>Email</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-                if ($result->num_rows > 0) {
-                    while ($row = $result->fetch_assoc()) {
-                        echo "<tr><td>" . $row["student_id"] . "</td><td>" . $row["first_name"] . " " . $row["last_name"] . "</td><td>" . $row["department_id"] . "</td><td>" . $row["email"] . "</td></tr>";
-                    }
-                } else {
-                    echo "<tr><td colspan='3'>No records found</td></tr>";
-                }
-                ?>
-            </tbody>
-        </table>
-        <a class="btn-back" href="../add_student.php">Add Student</a>
-        <a class="btn-back" href="../dashboard_1.php">Back to Dashboard</a>
-    </div>
+<body> 
+    <h1>Search for Students</h1>
+    <form method="POST" action="">
+        <input type="text" name="search" value="<?php echo htmlspecialchars($searchTerm); ?>" placeholder="Enter student name or ID" required>
+        <button type="submit">Search</button>
+    </form>
+    
+
+    <?php
+    if ($result->num_rows > 0) {
+        
+        // Display search results in a table
+        echo'<h2>Search for Students</h2>';
+        echo '<table>';
+        echo '<tr><th>Student ID</th><th>Name</th><th>Department ID</th><th>Email</th></tr>';
+
+        while ($row = $result->fetch_assoc()) {
+            echo "<tr><td>" . $row["student_id"] . "</td><td>" . $row["first_name"] . " " . $row["last_name"] . "</td><td>" . $row["department_id"] . "</td><td>" . $row["email"] . "</td></tr>";
+        }
+        echo '</table>';
+    } else {
+        echo '<p>No results found.</p>';
+    }
+
+    // Close the statement and connection
+    $stmt->close();
+    $conn->close();
+    ?>
 </body>
 </html>

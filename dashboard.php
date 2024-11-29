@@ -2,20 +2,10 @@
 session_start();
 include('config.php');
 
-// Redirect if the user is not logged in
 if (!isset($_SESSION['username'])) {
-    header("Location: login.php");
+    header(".. /login.php");
     exit();
 }
-
-// Fetch some example data from the database (optional)
-$sql = "SELECT COUNT(*) AS total_students FROM student";
-$result = $conn->query($sql);
-$total_students = $result->fetch_assoc()['total_students'] ?? 0;
-
-$sql_courses = "SELECT COUNT(*) AS total_courses FROM course";
-$result_courses = $conn->query($sql_courses);
-$total_courses = $result_courses->fetch_assoc()['total_courses'] ?? 0;
 ?>
 
 <!DOCTYPE html>
@@ -24,56 +14,67 @@ $total_courses = $result_courses->fetch_assoc()['total_courses'] ?? 0;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
-    <link rel="stylesheet" href="styles/styles.css">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7f6;
             margin: 0;
             padding: 0;
         }
-
-        .dashboard {
-            max-width: 800px;
-            margin: 30px auto;
-            background: #fff;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 20px auto;
             padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
-
         h1 {
-            text-align: center;
-            color: #4CAF50;
-            font-size: 28px;
-        }
-
-        nav ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        nav ul li {
-            margin: 10px 0;
-        }
-
-        nav ul li a {
-            text-decoration: none;
-            font-size: 18px;
+            font-size: 2.5em;
             color: #333;
-            background: #e7f3e7;
-            padding: 10px 15px;
-            border-radius: 5px;
-            display: block;
-            transition: background-color 0.3s, transform 0.3s;
+            text-align: center;
+            margin-bottom: 20px;
         }
-
-        nav ul li a:hover {
-            background: #4CAF50;
+        form {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 1em;
+            background-color: #4CAF50;
             color: white;
-            transform: translateX(5px);
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
         }
-
+        button:hover {
+            background-color: #45a049;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+            font-weight: bold;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
         .logout {
             display: block;
             width: fit-content;
@@ -90,82 +91,22 @@ $total_courses = $result_courses->fetch_assoc()['total_courses'] ?? 0;
         .logout:hover {
             background: #c9302c;
         }
-
-        .stats {
-            display: flex;
-            justify-content: space-between;
-            margin: 20px 0;
-        }
-
-        .stats div {
-            background: #f7f7f7;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 15px;
-            text-align: center;
-            flex: 1;
-            margin: 0 10px;
-        }
-
-        .stats div h3 {
-            font-size: 18px;
-            color: #333;
-            margin: 0;
-        }
-
-        .stats div p {
-            font-size: 24px;
-            color: #4CAF50;
-            font-weight: bold;
-        }
-
-        @media (max-width: 600px) {
-            .stats {
-                flex-direction: column;
-            }
-
-            .stats div {
-                margin: 10px 0;
-            }
-        }
     </style>
 </head>
 <body>
-    <div class="dashboard">
-        <h1>Welcome, <?php echo htmlspecialchars($_SESSION['username']); ?>!</h1>
+    <div class="container">
+        <h1>Dashboard</h1>
+        
+        <form method="POST" action="dashboard_1.php">
+            <button type="submit" name="showTable">Show All Tables</button>
+        </form>
+        <form method="POST" action="search.php">
+            <button type="submit" name="Search">Search</button>
+        </form>
 
-        <div class="stats">
-            <div>
-                <h3>Total Students</h3>
-                <p><?php echo htmlspecialchars($total_students); ?></p>
-            </div>
-            <div>
-                <h3>Total Courses</h3>
-                <p><?php echo htmlspecialchars($total_courses); ?></p>
-            </div>
-        </div>
-
-        <nav>
-            <ul>
-                <li><a href="table/assignment.php">Assignment Table</a></li>
-                <li><a href="table/attendance.php">Attendance Table</a></li>
-                <li><a href="table/attendance_status.php">Attendance Status Table</a></li>
-                <li><a href="table/classroom.php">Classroom Table</a></li>
-                <li><a href="table/class_schedule.php">Class Schedule Table</a></li>
-                <li><a href="table/course.php">Course Table</a></li>
-                <li><a href="table/department.php">Department Table</a></li>
-                <li><a href="table/enrollment.php">Enrollment Table</a></li>
-                <li><a href="table/grade.php">Grade Table</a></li>
-                <li><a href="table/instructor.php">Instructor Table</a></li>
-                <li><a href="table/program.php">Program Table</a></li>
-                <li><a href="table/semester.php">Semester Table</a></li>
-                <li><a href="table/student.php">Student Table</a></li>
-                <li><a href="table/subject.php">Subjects Table</a></li>
-                <li><a href="table/submission.php">Submission Table</a></li>
-            </ul>
-        </nav>
-
-        <a class="logout" href="logout.php">Logout</a>
+        <?php
+        ?>
+        <a class="logout" href="login.php">Logout</a>
     </div>
 </body>
 </html>
